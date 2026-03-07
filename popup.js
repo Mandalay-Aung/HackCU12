@@ -16,6 +16,10 @@ const settingsPanel = document.getElementById('settingsPanel');
 const saveSettingsBtn = document.getElementById('saveSettingsBtn');
 const sameTabTimeoutInput = document.getElementById('sameTabTimeout');
 const idleTimeoutInput = document.getElementById('idleTimeout');
+const alarmSoundToggle = document.getElementById('alarmSoundToggle');
+const alarmTypeSelect = document.getElementById('alarmType');
+const alarmTypeRow = document.getElementById('alarmTypeRow');
+const testAlarmBtn = document.getElementById('testAlarmBtn');
 const mascot = document.getElementById('mascot');
 
 // --- Motivational Messages ---
@@ -66,6 +70,20 @@ function setupEventListeners() {
 
   // Save settings
   saveSettingsBtn.addEventListener('click', saveSettings);
+
+  // Alarm sound toggle
+  alarmSoundToggle.addEventListener('change', () => {
+    alarmTypeRow.style.display = alarmSoundToggle.checked ? 'flex' : 'none';
+    testAlarmBtn.style.display = alarmSoundToggle.checked ? 'block' : 'none';
+  });
+
+  // Test alarm button
+  testAlarmBtn.addEventListener('click', () => {
+    const soundType = alarmTypeSelect.value === 'all' ? 'chime' : alarmTypeSelect.value;
+    chrome.runtime.sendMessage({ type: 'testAlarm', sound: soundType });
+    testAlarmBtn.textContent = '🔊 Playing...';
+    setTimeout(() => { testAlarmBtn.textContent = '🔊 Test Alarm'; }, 1500);
+  });
 
   // Enter key to start
   subjectInput.addEventListener('keypress', (e) => {
@@ -200,6 +218,10 @@ function loadSettings() {
     if (result.config) {
       sameTabTimeoutInput.value = result.config.sameTabTimeout || 30;
       idleTimeoutInput.value = result.config.idleTimeout || 5;
+      alarmSoundToggle.checked = result.config.alarmSoundEnabled !== false;
+      alarmTypeSelect.value = result.config.alarmSoundType || 'all';
+      alarmTypeRow.style.display = alarmSoundToggle.checked ? 'flex' : 'none';
+      testAlarmBtn.style.display = alarmSoundToggle.checked ? 'block' : 'none';
     }
   });
 }
@@ -209,6 +231,8 @@ function saveSettings() {
     const config = result.config || {};
     config.sameTabTimeout = parseInt(sameTabTimeoutInput.value) || 30;
     config.idleTimeout = parseInt(idleTimeoutInput.value) || 5;
+    config.alarmSoundEnabled = alarmSoundToggle.checked;
+    config.alarmSoundType = alarmTypeSelect.value;
 
     chrome.storage.local.set({ config }, () => {
       saveSettingsBtn.textContent = '✅ Saved!';

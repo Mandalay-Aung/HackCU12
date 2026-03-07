@@ -4,6 +4,7 @@
 const DEFAULT_CONFIG = {
   sameTabTimeout: 30,       // minutes before "same tab too long" alert
   idleTimeout: 5,           // minutes of no activity before alert
+  alarmSoundEnabled: true,  // play alarm sounds with notifications
   focusSubject: '',
   sessionStartTime: null,
   isSessionActive: false,
@@ -27,7 +28,8 @@ let lastActivityTime = Date.now();
 let focusSubject = '';
 let isSessionActive = false;
 
-// --- Initialization ---
+
+// --- Initialization ---/
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.get(['config'], (result) => {
     if (!result.config) {
@@ -89,7 +91,8 @@ function checkIfUnproductive(url) {
         sendNotification(
           '🦬 Hey, get back to work!',
           `You should be studying ${focusSubject}! This site isn't helping you focus.`,
-          'unproductive_site'
+          'unproductive_site',
+          'horn'
         );
       }
     } catch (e) {
@@ -112,7 +115,8 @@ function checkProductivity() {
       sendNotification(
         '🦬 You\'ve been on this tab a while...',
         `You've been on the same tab for ${Math.floor(tabMinutes)} minutes. Still working on ${focusSubject}?`,
-        'same_tab'
+        'same_tab',
+        'chime'
       );
       // Reset so we don't spam
       tabStartTime = now;
@@ -124,7 +128,8 @@ function checkProductivity() {
       sendNotification(
         '🦬 Are you still there?',
         `No activity for ${Math.floor(idleMinutes)} minutes. Are you doomscrolling? Get back to ${focusSubject}!`,
-        'idle'
+        'idle',
+        'urgent'
       );
       // Reset so we don't spam
       lastActivityTime = now;
@@ -178,6 +183,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse({ status: 'stopped' });
   }
 
+  if (message.type === 'testAlarm') {
+    playAlarmSound(message.sound);
+    sendResponse({ status: 'playing' });
+  }
+
   if (message.type === 'getStatus') {
     sendResponse({
       isActive: isSessionActive,
@@ -191,7 +201,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 // --- Notification Helper ---
-function sendNotification(title, message, tag) {
+function sendNotification(title, message, tag, alarmSound) {
   chrome.notifications.create(tag + '_' + Date.now(), {
     type: 'basic',
     iconUrl: 'icons/icon128.png',
@@ -199,6 +209,46 @@ function sendNotification(title, message, tag) {
     message: message,
     priority: 2
   });
+
+  // Play alarm sound if enabled
+  if (alarmSound) {
+    chrome.storage.local.get(['config'], (result) => {
+      const config = result.config || DEFAULT_CONFIG;
+      if (config.alarmSoundEnabled !== false) {
+        playAlarmSound(alarmSound);
+      }
+    });
+  }
+}
+
+// --- Offscreen Document for Audio ---
+let creatingOffscreen = false;
+
+async function ensureOffscreenDocument() {
+  const existingContexts = await chrome.runtime.getContexts({
+    contextTypes: ['OFFSCREEN_DOCUMENT']
+  });
+
+  if (existingContexts.length > 0) return;
+
+  if (creatingOffscreen) return;
+  creatingOffscreen = true;
+
+  try {
+    await chrome.offscreen.createDocument({
+      url: 'alarm.html',
+      reasons: ['AUDIO_PLAYBACK'],
+      justification: 'Playing alarm sounds for productivity notifications'
+    });
+  } catch (e) {
+    // Document may already exist
+  }
+  creatingOffscreen = false;
+}
+
+async function playAlarmSound(sound) {
+  await ensureOffscreenDocument();
+  chrome.runtime.sendMessage({ type: 'playAlarm', sound });
 }
 
 // --- Restore session on startup ---

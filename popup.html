@@ -76,6 +76,23 @@
             <label>Idle alert (min)</label>
             <input type="number" id="idleTimeout" class="setting-input" min="1" max="60" value="5">
           </div>
+          <div class="setting-row">
+            <label>🔔 Alarm sounds</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="alarmSoundToggle" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="setting-row alarm-type-row" id="alarmTypeRow">
+            <label>Sound type</label>
+            <select id="alarmType" class="setting-input setting-select">
+              <option value="all">All sounds</option>
+              <option value="chime">Chime only</option>
+              <option value="urgent">Urgent only</option>
+              <option value="horn">Buffalo horn only</option>
+            </select>
+          </div>
+          <button id="testAlarmBtn" class="btn btn-secondary">🔊 Test Alarm</button>
           <button id="saveSettingsBtn" class="btn btn-secondary">Save Settings</button>
         </div>
       </div>
