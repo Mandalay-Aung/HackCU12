@@ -45,6 +45,10 @@ body {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
+  background-image: url('images/flatirons_bg.png');
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
 }
 
 /* Clouds */

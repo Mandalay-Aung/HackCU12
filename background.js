@@ -122,22 +122,29 @@ function checkProductivity() {
       tabStartTime = now;
     }
 
-    // Check idle timeout
-    const idleMinutes = (now - lastActivityTime) / (1000 * 60);
-    if (idleMinutes >= config.idleTimeout) {
-      sendNotification(
-        '🦬 Are you still there?',
-        `No activity for ${Math.floor(idleMinutes)} minutes. Are you doomscrolling? Get back to ${focusSubject}!`,
-        'idle',
-        'urgent'
-      );
-      // Reset so we don't spam
-      lastActivityTime = now;
-    }
+    // Check system-wide idle state
+    chrome.idle.queryState(60, (state) => {
+      if (state === 'active') {
+        // User is active anywhere on their computer (any app)
+        lastActivityTime = now;
+      }
+      
+      const idleMinutes = (now - lastActivityTime) / (1000 * 60);
+      if (idleMinutes >= config.idleTimeout) {
+        sendNotification(
+          '🦬 Are you still there?',
+          `No activity for ${Math.floor(idleMinutes)} minutes. Are you doomscrolling? Get back to ${focusSubject}!`,
+          'idle',
+          'urgent'
+        );
+        // Reset so we don't spam
+        lastActivityTime = now;
+      }
+    });
   });
 }
 
-// --- System Idle Detection ---
+// --- System Idle Detection (Fallback) ---
 chrome.idle.onStateChanged.addListener((state) => {
   if (state === 'active') {
     lastActivityTime = Date.now();

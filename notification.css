@@ -37,6 +37,10 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 0;
+  background-image: url('images/flatirons_bg.png');
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
 }
 
 .cloud {
