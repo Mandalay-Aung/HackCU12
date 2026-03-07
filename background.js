@@ -39,6 +39,16 @@ function notify(title, message) {
   });
 }
 
+// Send overlay alert to the active tab's content script
+async function sendOverlayAlert(type, text, subject) {
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tab && tab.id && tab.url && tab.url.startsWith('http')) {
+      chrome.tabs.sendMessage(tab.id, { type, text, subject });
+    }
+  } catch (e) { /* tab may not have content script */ }
+}
+
 function isBlocked(url) {
   try {
     const hostname = new URL(url).hostname.toLowerCase();
@@ -79,10 +89,9 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
     if (isBlocked(url)) {
       const count = (session.blockedVisits || 0) + 1;
       await updateSession({ blockedVisits: count, alertsCount: (session.alertsCount || 0) + 1 });
-      notify(
-        '⚠️ Distraction Detected!',
-        `You're on ${new URL(url).hostname} — get back to "${session.subject}"!`
-      );
+      const msg = `You're on ${new URL(url).hostname} — that's not "${session.subject}"!`;
+      notify('⚠️ Distraction Detected!', msg);
+      sendOverlayAlert('SHOW_DISTRACTION_ALERT', msg, session.subject);
     }
 
     // Reset tab timer for the new tab
@@ -101,10 +110,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
     if (isBlocked(changeInfo.url)) {
       const count = (session.blockedVisits || 0) + 1;
       await updateSession({ blockedVisits: count, alertsCount: (session.alertsCount || 0) + 1 });
-      notify(
-        '⚠️ Distraction Detected!',
-        `You navigated to ${new URL(changeInfo.url).hostname} — stay focused on "${session.subject}"!`
-      );
+      const msg = `You navigated to ${new URL(changeInfo.url).hostname} — stay focused!`;
+      notify('⚠️ Distraction Detected!', msg);
+      sendOverlayAlert('SHOW_DISTRACTION_ALERT', msg, session.subject);
     }
 
     // Reset tab timer
@@ -134,10 +142,9 @@ setInterval(async () => {
   if (now - lastActivity > IDLE_THRESHOLD) {
     const count = (session.idleCount || 0) + 1;
     await updateSession({ idleCount: count, alertsCount: (session.alertsCount || 0) + 1 });
-    notify(
-      '💤 Are you still there?',
-      `No activity detected for a while. Time to get back to "${session.subject}"!`
-    );
+    const msg = `No activity detected for a while. Time to get back to work!`;
+    notify('💤 Are you still there?', msg);
+    sendOverlayAlert('SHOW_IDLE_ALERT', msg, session.subject);
     // Reset to avoid spamming — next alert after another full idle period
     await updateSession({ lastActivity: now });
   }
@@ -149,10 +156,9 @@ setInterval(async () => {
       alertsCount: (session.alertsCount || 0) + 1,
       lastTabTime: now  // reset so we don't spam
     });
-    notify(
-      '🔄 Stuck on the same page?',
-      `You've been on the same tab for over 30 minutes. Still working on "${session.subject}"?`
-    );
+    const msg = `You've been on the same tab for over 30 minutes. Still working?`;
+    notify('🔄 Stuck on the same page?', msg);
+    sendOverlayAlert('SHOW_TAB_ALERT', msg, session.subject);
   }
 }, CHECK_INTERVAL);
 
@@ -166,10 +172,9 @@ chrome.idle.onStateChanged.addListener(async (newState) => {
   if (newState === 'idle' || newState === 'locked') {
     const count = (session.idleCount || 0) + 1;
     await updateSession({ idleCount: count, alertsCount: (session.alertsCount || 0) + 1 });
-    notify(
-      '💤 You seem away!',
-      `Chrome detected you're ${newState}. Come back and focus on "${session.subject}"!`
-    );
+    const msg = `Chrome detected you're ${newState}. Come back and focus!`;
+    notify('💤 You seem away!', msg);
+    sendOverlayAlert('SHOW_IDLE_ALERT', msg, session.subject);
   }
 
   if (newState === 'active') {
