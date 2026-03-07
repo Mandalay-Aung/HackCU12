@@ -176,12 +176,6 @@ function checkProductivity() {
   });
 }
 
-// --- System Idle Detection (Fallback) ---
-chrome.idle.onStateChanged.addListener((state) => {
-  if (state === 'active') {
-    lastActivityTime = Date.now();
-  }
-});
 
 // --- Activity Messages from Content Script ---
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
