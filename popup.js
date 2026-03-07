@@ -1,6 +1,8 @@
 // ===== BuffaloFocus Popup Script =====
 
 // --- DOM Elements ---
+const welcomeScreen = document.getElementById('welcomeScreen');
+const enterAppBtn = document.getElementById('enterAppBtn');
 const startScreen = document.getElementById('startScreen');
 const sessionScreen = document.getElementById('sessionScreen');
 const subjectInput = document.getElementById('subjectInput');
@@ -19,6 +21,9 @@ const idleTimeoutInput = document.getElementById('idleTimeout');
 const alarmSoundToggle = document.getElementById('alarmSoundToggle');
 const alarmTypeSelect = document.getElementById('alarmType');
 const alarmTypeRow = document.getElementById('alarmTypeRow');
+const quoteToggle = document.getElementById('quoteToggle');
+const quoteIntervalInput = document.getElementById('quoteInterval');
+const quoteIntervalRow = document.getElementById('quoteIntervalRow');
 const testAlarmBtn = document.getElementById('testAlarmBtn');
 const mascot = document.getElementById('mascot');
 
@@ -48,6 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- Event Listeners ---
 function setupEventListeners() {
+  // Enter App from Welcome Screen
+  enterAppBtn.addEventListener('click', () => {
+    welcomeScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
+    // Hide header on main screens to save space or just keep it
+  });
+
   // Start session
   startBtn.addEventListener('click', startSession);
 
@@ -75,6 +87,11 @@ function setupEventListeners() {
   alarmSoundToggle.addEventListener('change', () => {
     alarmTypeRow.style.display = alarmSoundToggle.checked ? 'flex' : 'none';
     testAlarmBtn.style.display = alarmSoundToggle.checked ? 'block' : 'none';
+  });
+
+  // Motivational Quote toggle
+  quoteToggle.addEventListener('change', () => {
+    quoteIntervalRow.style.display = quoteToggle.checked ? 'flex' : 'none';
   });
 
   // Test alarm button
@@ -131,6 +148,7 @@ function stopSession() {
 
 // --- Show Screens ---
 function showSessionScreen(subject) {
+  welcomeScreen.classList.add('hidden');
   startScreen.classList.add('hidden');
   sessionScreen.classList.remove('hidden');
   sessionSubject.textContent = subject;
@@ -147,7 +165,12 @@ function showStartScreen() {
 // --- Check Existing Session ---
 function checkSession() {
   chrome.runtime.sendMessage({ type: 'getStatus' }, (response) => {
-    if (chrome.runtime.lastError) return;
+    if (chrome.runtime.lastError) {
+      // Background worker might be asleep, just show welcome screen
+      welcomeScreen.classList.remove('hidden');
+      return;
+    }
+    
     if (response && response.isActive) {
       chrome.storage.local.get(['session'], (result) => {
         if (result.session) {
@@ -155,6 +178,9 @@ function checkSession() {
           showSessionScreen(response.subject);
         }
       });
+    } else {
+      // Show welcome screen if no active session
+      welcomeScreen.classList.remove('hidden');
     }
   });
 }
@@ -222,6 +248,10 @@ function loadSettings() {
       alarmTypeSelect.value = result.config.alarmSoundType || 'all';
       alarmTypeRow.style.display = alarmSoundToggle.checked ? 'flex' : 'none';
       testAlarmBtn.style.display = alarmSoundToggle.checked ? 'block' : 'none';
+      
+      quoteToggle.checked = result.config.quoteEnabled !== false;
+      quoteIntervalInput.value = result.config.quoteInterval || 15;
+      quoteIntervalRow.style.display = quoteToggle.checked ? 'flex' : 'none';
     }
   });
 }
@@ -233,9 +263,13 @@ function saveSettings() {
     config.idleTimeout = parseInt(idleTimeoutInput.value) || 5;
     config.alarmSoundEnabled = alarmSoundToggle.checked;
     config.alarmSoundType = alarmTypeSelect.value;
+    config.quoteEnabled = quoteToggle.checked;
+    config.quoteInterval = parseInt(quoteIntervalInput.value) || 15;
 
     chrome.storage.local.set({ config }, () => {
       saveSettingsBtn.textContent = '✅ Saved!';
+      // Notify background to update intervals if needed
+      chrome.runtime.sendMessage({ type: 'updateConfig', config });
       setTimeout(() => { saveSettingsBtn.textContent = 'Save Settings'; }, 1500);
     });
   });

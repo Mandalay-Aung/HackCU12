@@ -35,8 +35,19 @@
       <p class="subtitle">Your CU Boulder Study Buddy 🦬</p>
     </header>
 
+    <!-- Welcome Screen (New Landing Page) -->
+    <div id="welcomeScreen" class="screen">
+      <div class="welcome-box">
+        <h1 class="welcome-title">Ready to Study?</h1>
+        <p class="welcome-subtitle">Join your CU Boulder Study Buddy!</p>
+        <button id="enterAppBtn" class="btn btn-primary welcome-btn">
+          <span class="btn-icon">🦬</span> Enter Study Buddy
+        </button>
+      </div>
+    </div>
+
     <!-- Start Screen (shown when no active session) -->
-    <div id="startScreen" class="screen">
+    <div id="startScreen" class="screen hidden">
       <div class="card glass-card">
         <h2 class="card-title">What are you studying?</h2>
         <div class="input-group">
@@ -92,7 +103,19 @@
               <option value="horn">Buffalo horn only</option>
             </select>
           </div>
-          <button id="testAlarmBtn" class="btn btn-secondary">🔊 Test Alarm</button>
+          <hr class="settings-divider">
+          <div class="setting-row">
+            <label>💬 Motivational Quotes</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="quoteToggle" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="setting-row quote-interval-row" id="quoteIntervalRow">
+            <label>Quote frequency (min)</label>
+            <input type="number" id="quoteInterval" class="setting-input" min="1" max="120" value="15">
+          </div>
+          <button id="testAlarmBtn" class="btn btn-secondary" style="margin-top: 8px;">🔊 Test Alarm</button>
           <button id="saveSettingsBtn" class="btn btn-secondary">Save Settings</button>
         </div>
       </div>

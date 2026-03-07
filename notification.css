@@ -37,17 +37,14 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 0;
-  background-image: url('images/flatirons_bg.png');
-  background-position: bottom center;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
 }
 
 .cloud {
   position: absolute;
   font-size: 4rem;
-  opacity: 0.4;
+  opacity: 0.6;
   animation: floatCloud linear infinite;
+  filter: drop-shadow(0 8px 12px rgba(255, 255, 255, 0.4));
 }
 
 .cloud-1 { top: 10%; animation-duration: 30s; }

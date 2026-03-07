@@ -45,42 +45,38 @@ body {
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  background-image: url('images/flatirons_bg.png');
-  background-position: bottom center;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
 }
 
 /* Clouds */
 .cloud {
   position: absolute;
   font-size: 2.5rem;
-  opacity: 0.5;
+  opacity: 0.8;
   animation: floatCloud linear infinite;
-  filter: blur(0.5px);
+  filter: drop-shadow(0 8px 12px rgba(255, 255, 255, 0.4));
 }
 
 .cloud-1 {
   top: 8%;
-  font-size: 3rem;
+  font-size: 3.5rem;
   animation-duration: 25s;
   animation-delay: 0s;
 }
 
 .cloud-2 {
   top: 25%;
-  font-size: 2rem;
+  font-size: 2.5rem;
   animation-duration: 35s;
   animation-delay: -10s;
-  opacity: 0.35;
+  opacity: 0.6;
 }
 
 .cloud-3 {
   top: 50%;
-  font-size: 2.5rem;
+  font-size: 3rem;
   animation-duration: 30s;
   animation-delay: -5s;
-  opacity: 0.4;
+  opacity: 0.7;
 }
 
 @keyframes floatCloud {
@@ -93,6 +89,7 @@ body {
   position: absolute;
   color: var(--cu-gold);
   animation: twinkle ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 8px rgba(207, 184, 124, 0.8));
 }
 
 .star-1 { top: 5%; left: 10%; font-size: 0.8rem; animation-duration: 2s; }
@@ -463,6 +460,13 @@ body {
   transition: all 0.3s ease;
 }
 
+.settings-divider {
+  border: none;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 12px 0;
+}
+
 /* --- Session Screen --- */
 .session-card {
   text-align: center;
@@ -562,6 +566,64 @@ body {
   font-size: 0.82rem;
   font-weight: 500;
   color: var(--cu-dark-gray);
+}
+
+/* --- Header Hide Utility --- */
+.header-hidden {
+  display: none;
+}
+
+/* --- Welcome Screen --- */
+#welcomeScreen {
+  background-image: url('images/landing_bg.png');
+  background-position: center bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#welcomeScreen.hidden {
+  display: none !important;
+}
+
+.welcome-box {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  padding: 30px 24px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  max-width: 85%;
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.welcome-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--cu-dark-gray);
+  margin-bottom: 8px;
+}
+
+.welcome-subtitle {
+  font-size: 1rem;
+  color: var(--cu-gold-dark);
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.welcome-btn {
+  padding: 14px 24px;
+  font-size: 1.1rem;
+  border-radius: 30px;
 }
 
 /* --- Screen transitions --- */

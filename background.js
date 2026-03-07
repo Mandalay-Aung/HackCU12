@@ -5,6 +5,8 @@ const DEFAULT_CONFIG = {
   sameTabTimeout: 30,       // minutes before "same tab too long" alert
   idleTimeout: 5,           // minutes of no activity before alert
   alarmSoundEnabled: true,  // play alarm sounds with notifications
+  quoteEnabled: true,       // show motivational quotes
+  quoteInterval: 15,        // minutes between quotes
   focusSubject: '',
   sessionStartTime: null,
   isSessionActive: false,
@@ -19,6 +21,17 @@ const DEFAULT_CONFIG = {
     'store.steampowered.com', 'twitch.tv'
   ]
 };
+
+const QUOTES = [
+  "You're doing great! Keep it up!",
+  "Small steps every day lead to big results.",
+  "Focus on the step in front of you, not the whole staircase.",
+  "You are capable of amazing things.",
+  "Don't stop until you're proud.",
+  "Every minute of focus counts.",
+  "Be Boulder. Be brilliant.",
+  "Ralphie is cheering you on! 🦬"
+];
 
 // --- State ---
 let currentTabId = null;
@@ -42,14 +55,40 @@ chrome.runtime.onInstalled.addListener(() => {
 
   // Create check alarm - fires every minute
   chrome.alarms.create('productivityCheck', { periodInMinutes: 1 });
+  
+  // Create quote alarm based on config
+  chrome.storage.local.get(['config'], (result) => {
+    const config = result.config || DEFAULT_CONFIG;
+    if (config.quoteEnabled) {
+      chrome.alarms.create('motivationalQuote', { periodInMinutes: config.quoteInterval || 15 });
+    }
+  });
 });
 
-// --- Alarm Handler (runs every minute) ---
+// --- Alarm Handler ---
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'productivityCheck') {
     checkProductivity();
+  } else if (alarm.name === 'motivationalQuote') {
+    sendMotivationalQuote();
   }
 });
+
+function sendMotivationalQuote() {
+  if (!isSessionActive) return;
+  chrome.storage.local.get(['config'], (result) => {
+    const config = result.config || DEFAULT_CONFIG;
+    if (config.quoteEnabled) {
+      const randomQuote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+      sendNotification(
+        '🦬 Keep going!',
+        randomQuote,
+        'quote',
+        'chime' 
+      );
+    }
+  });
+}
 
 // --- Tab Change Tracking ---
 chrome.tabs.onActivated.addListener((activeInfo) => {
@@ -122,25 +161,18 @@ function checkProductivity() {
       tabStartTime = now;
     }
 
-    // Check system-wide idle state
-    chrome.idle.queryState(60, (state) => {
-      if (state === 'active') {
-        // User is active anywhere on their computer (any app)
-        lastActivityTime = now;
-      }
-      
-      const idleMinutes = (now - lastActivityTime) / (1000 * 60);
-      if (idleMinutes >= config.idleTimeout) {
-        sendNotification(
-          '🦬 Are you still there?',
-          `No activity for ${Math.floor(idleMinutes)} minutes. Are you doomscrolling? Get back to ${focusSubject}!`,
-          'idle',
-          'urgent'
-        );
-        // Reset so we don't spam
-        lastActivityTime = now;
-      }
-    });
+    // Check idle timeout (based strictly on content.js activity or system active state updates)
+    const idleMinutes = (now - lastActivityTime) / (1000 * 60);
+    if (idleMinutes >= config.idleTimeout) {
+      sendNotification(
+        '🦬 Are you still there?',
+        `No activity for ${Math.floor(idleMinutes)} minutes. Are you doomscrolling? Get back to ${focusSubject}!`,
+        'idle',
+        'urgent'
+      );
+      // Reset so we don't spam
+      lastActivityTime = now;
+    }
   });
 }
 
@@ -202,6 +234,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       tabTime: Math.floor((Date.now() - tabStartTime) / 1000),
       idleTime: Math.floor((Date.now() - lastActivityTime) / 1000)
     });
+  }
+
+  if (message.type === 'updateConfig') {
+    const config = message.config;
+    if (config.quoteEnabled) {
+      chrome.alarms.create('motivationalQuote', { periodInMinutes: config.quoteInterval || 15 });
+    } else {
+      chrome.alarms.clear('motivationalQuote');
+    }
+    sendResponse({ status: 'updated' });
   }
 
   return true; // Keep message channel open for async response
