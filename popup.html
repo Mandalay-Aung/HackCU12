@@ -88,6 +88,18 @@
             <input type="number" id="idleTimeout" class="setting-input" min="1" max="60" value="5">
           </div>
           <div class="setting-row">
+            <label>💬 Motivational Quotes</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="quoteToggle" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="setting-row quote-interval-row" id="quoteIntervalRow">
+            <label>Quote frequency (min)</label>
+            <input type="number" id="quoteInterval" class="setting-input" min="1" max="120" value="15">
+          </div>
+          <hr class="settings-divider">
+          <div class="setting-row">
             <label>🔔 Alarm sounds</label>
             <label class="toggle-switch">
               <input type="checkbox" id="alarmSoundToggle" checked>
@@ -102,18 +114,6 @@
               <option value="urgent">Urgent only</option>
               <option value="horn">Buffalo horn only</option>
             </select>
-          </div>
-          <hr class="settings-divider">
-          <div class="setting-row">
-            <label>💬 Motivational Quotes</label>
-            <label class="toggle-switch">
-              <input type="checkbox" id="quoteToggle" checked>
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div class="setting-row quote-interval-row" id="quoteIntervalRow">
-            <label>Quote frequency (min)</label>
-            <input type="number" id="quoteInterval" class="setting-input" min="1" max="120" value="15">
           </div>
           <button id="testAlarmBtn" class="btn btn-secondary" style="margin-top: 8px;">🔊 Test Alarm</button>
           <button id="saveSettingsBtn" class="btn btn-secondary">Save Settings</button>
