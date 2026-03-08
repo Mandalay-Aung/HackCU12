@@ -1,4 +1,4 @@
-// ===== Notification Page Script =====
+// Notification Page Script
 
 const backToWorkBtn = document.getElementById('backToWorkBtn');
 const breakBtn = document.getElementById('breakBtn');
@@ -13,12 +13,12 @@ const messages = {
   idle: {
     title: '🦬 Are you still there?',
     message: `No activity detected! Are you doomscrolling? Get back to ${subject}!`,
-    quote: '"Champions train while others complain." — Ralphie 🏔️'
+    quote: '"Champions train while others complain." 🏔️'
   },
   same_tab: {
     title: '🦬 Time to switch it up!',
     message: `You've been on this tab for a while. Still working on ${subject}?`,
-    quote: '"Be Boulder, stay focused." — CU Spirit 💛'
+    quote: '"Stay focused. A little longer" 💛'
   },
   unproductive_site: {
     title: '🦬 Hey, get back to work!',
@@ -27,8 +27,8 @@ const messages = {
   },
   general: {
     title: '🦬 Focus Check!',
-    message: `Hey Buff! Make sure you're staying on track with ${subject}!`,
-    quote: '"Be Boulder." — CU Buffalo Spirit 🏔️'
+    message: `Hey there! Make sure you're staying on track with ${subject}!`,
+    quote: '"Be Boulder." 🏔️'
   }
 };
 
