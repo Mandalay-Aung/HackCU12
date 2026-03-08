@@ -100,17 +100,17 @@ body {
   100% { opacity: 1; transform: scale(1.2); }
 }
 
-/* Flowers */
-.flower {
+/* School Items */
+.school-item {
   position: absolute;
   animation: sway ease-in-out infinite alternate;
 }
 
-.flower-1 { bottom: 5%; left: 5%; font-size: 1.4rem; animation-duration: 3s; }
-.flower-2 { bottom: 3%; left: 25%; font-size: 1.1rem; animation-duration: 2.5s; animation-delay: 0.5s; }
-.flower-3 { bottom: 8%; right: 30%; font-size: 1.3rem; animation-duration: 3.5s; animation-delay: 1s; }
-.flower-4 { bottom: 2%; right: 10%; font-size: 1.5rem; animation-duration: 2.8s; animation-delay: 0.3s; }
-.flower-5 { bottom: 6%; left: 50%; font-size: 1.2rem; animation-duration: 3.2s; animation-delay: 0.7s; }
+.item-1 { bottom: 5%; left: 5%; font-size: 1.4rem; animation-duration: 3s; }
+.item-2 { bottom: 3%; left: 25%; font-size: 1.1rem; animation-duration: 2.5s; animation-delay: 0.5s; }
+.item-3 { bottom: 8%; right: 30%; font-size: 1.3rem; animation-duration: 3.5s; animation-delay: 1s; }
+.item-4 { bottom: 2%; right: 10%; font-size: 1.5rem; animation-duration: 2.8s; animation-delay: 0.3s; }
+.item-5 { bottom: 6%; left: 50%; font-size: 1.2rem; animation-duration: 3.2s; animation-delay: 0.7s; }
 
 @keyframes sway {
   0% { transform: rotate(-8deg) translateY(0); }
