@@ -1,0 +1,13 @@
+.word{
+    font-size: 25;
+}
+
+.largegreen{
+    font-size: 50;
+    color:green;
+}
+
+.largered{
+    font-size: 50;
+    color:red;
+}
