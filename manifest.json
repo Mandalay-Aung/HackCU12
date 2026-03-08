@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "BuffaloFocus - CU Boulder Study Buddy",
-  "version": "1.0.0",
-  "description": "Stay focused with your buffalo buddy! Track productivity, get nudges when you drift, and crush your study goals.",
+  "name": "BuffFocus - Buffalo Study Buddy",
+  "version": "1.0.9",
+  "description": "Stay focused with Ralphie, your buffalo study buddy! Track your productivity, 
+                  get reminders when you drift, and stay focused on your study goals. 
+                  (Not offically affilated with the University of Colorado Boulder)",
   "permissions": [
     "tabs",
     "activeTab",
