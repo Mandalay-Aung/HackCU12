@@ -1,4 +1,4 @@
-# HackCU12: BuffFocus - Buffalo Study Buddy
+# HackCU12: BuffFocus - Buffalo Study Buddy v1.0.10
 
 # How to Download
 - Go to github link
@@ -43,6 +43,9 @@ Through MLH workshops and the resources available at HackCU12, we got to explore
 - javascript
 - vscode
 - webaudiopai
+
+# Version Explanation
+Version 1.0.10 is the tenth major iteration of the BuffFocus Extension. All previous versions can be found in the "testing" branch. All other drafts/scrapped work can be found in the various branches as well.
 
 # Try it out!
 
