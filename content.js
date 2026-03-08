@@ -1,4 +1,4 @@
-// ===== BuffaloFocus Content Script =====
+// BuffFocus Content Script
 // Tracks keyboard and mouse activity on web pages
 
 let lastReport = 0;
