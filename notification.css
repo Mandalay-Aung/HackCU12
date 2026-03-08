@@ -6,9 +6,6 @@
   --cu-gold-dark: #A6935F;
   --cu-black: #000000;
   --cu-dark-gray: #2C2C2C;
-  --cu-light-blue: #B8D4E8;
-  --cu-sky-blue: #A3C7E0;
-  --cu-pale-blue: #D6E8F5;
 }
 
 * {
@@ -20,7 +17,7 @@
 body {
   min-height: 100vh;
   font-family: 'Outfit', sans-serif;
-  background: linear-gradient(160deg, var(--cu-pale-blue) 0%, var(--cu-light-blue) 40%, var(--cu-sky-blue) 100%);
+  background: linear-gradient(160deg, #fbc2eb 0%, #a6c1ee 30%, #c4b5fd 60%, #a18cd1 100%);
   display: flex;
   align-items: center;
   justify-content: center;
