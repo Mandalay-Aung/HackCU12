@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=400, initial-scale=1.0">
-  <title>BuffaloFocus</title>
+  <title>BuffFocus</title>
   <link rel="stylesheet" href="popup.css">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -18,11 +18,11 @@
     <div class="star star-3">✦</div>
     <div class="star star-4">✦</div>
     <div class="star star-5">✦</div>
-    <div class="flower flower-1">🌸</div>
-    <div class="flower flower-2">🌼</div>
-    <div class="flower flower-3">🌷</div>
-    <div class="flower flower-4">🌻</div>
-    <div class="flower flower-5">🌺</div>
+    <div class="school-item item-1">📓</div>
+    <div class="school-item item-2">✏️</div>
+    <div class="school-item item-3">📚</div>
+    <div class="school-item item-4">📖</div>
+    <div class="school-item item-5">📝</div>
   </div>
 
   <div class="container">
@@ -31,17 +31,17 @@
       <div class="mascot-container">
         <img src="icons/icon128.png" alt="Buffalo Mascot" class="mascot" id="mascot">
       </div>
-      <h1 class="title">BuffaloFocus</h1>
-      <p class="subtitle">Your CU Boulder Study Buddy 🦬</p>
+      <h1 class="title">BuffFocus</h1>
+      <p class="subtitle">Your Buffalo Study Buddy 🦬</p>
     </header>
 
     <!-- Welcome Screen (New Landing Page) -->
     <div id="welcomeScreen" class="screen">
       <div class="welcome-box">
-        <h1 class="welcome-title">Ready to Study?</h1>
-        <p class="welcome-subtitle">Join your CU Boulder Study Buddy!</p>
+        <h1 class="welcome-title">Want to Study?</h1>
+        <p class="welcome-subtitle">Join your Buffalo Study Buddy!</p>
         <button id="enterAppBtn" class="btn btn-primary welcome-btn">
-          <span class="btn-icon">🦬</span> Enter Study Buddy
+          <span class="btn-icon">🦬</span> Go to Ralphie
         </button>
       </div>
     </div>
@@ -49,7 +49,7 @@
     <!-- Start Screen (shown when no active session) -->
     <div id="startScreen" class="screen hidden">
       <div class="card glass-card">
-        <h2 class="card-title">What are you studying?</h2>
+        <h2 class="card-title">What do you want to study?</h2>
         <div class="input-group">
           <input 
             type="text" 
@@ -63,12 +63,12 @@
             <button class="quick-btn" data-subject="Science">🔬 Science</button>
             <button class="quick-btn" data-subject="English">📝 English</button>
             <button class="quick-btn" data-subject="CS">💻 CS</button>
-            <button class="quick-btn" data-subject="History">📜 History</button>
+            <button class="quick-btn" data-subject="Physics">📜 Physics</button>
             <button class="quick-btn" data-subject="Art">🎨 Art</button>
           </div>
         </div>
         <button id="startBtn" class="btn btn-primary">
-          <span class="btn-icon">🚀</span> Start Focus Session
+          <span class="btn-icon">🚀</span> Start Focus Sesh
         </button>
       </div>
 
@@ -80,11 +80,11 @@
         </button>
         <div id="settingsPanel" class="settings-panel hidden">
           <div class="setting-row">
-            <label>Same tab alert (min)</label>
+            <label>Same Tab Alert (min)</label>
             <input type="number" id="sameTabTimeout" class="setting-input" min="1" max="120" value="30">
           </div>
           <div class="setting-row">
-            <label>Idle alert (min)</label>
+            <label>Inactivity Alert (min)</label>
             <input type="number" id="idleTimeout" class="setting-input" min="1" max="60" value="5">
           </div>
           <div class="setting-row">
@@ -95,12 +95,12 @@
             </label>
           </div>
           <div class="setting-row quote-interval-row" id="quoteIntervalRow">
-            <label>Quote frequency (min)</label>
+            <label>Quote Frequency (min)</label>
             <input type="number" id="quoteInterval" class="setting-input" min="1" max="120" value="15">
           </div>
           <hr class="settings-divider">
           <div class="setting-row">
-            <label>🔔 Alarm sounds</label>
+            <label>🔔 Alarm Sounds</label>
             <label class="toggle-switch">
               <input type="checkbox" id="alarmSoundToggle" checked>
               <span class="toggle-slider"></span>
@@ -110,9 +110,9 @@
             <label>Sound type</label>
             <select id="alarmType" class="setting-input setting-select">
               <option value="all">All sounds</option>
-              <option value="chime">Chime only</option>
-              <option value="urgent">Urgent only</option>
-              <option value="horn">Buffalo horn only</option>
+              <option value="chime">Chime</option>
+              <option value="urgent">Urgent</option>
+              <option value="horn">Buff Horn</option>
             </select>
           </div>
           <button id="testAlarmBtn" class="btn btn-secondary" style="margin-top: 8px;">🔊 Test Alarm</button>
@@ -150,7 +150,7 @@
 
         <div class="buffalo-message" id="buffaloMessage">
           <span class="message-icon">🦬</span>
-          <span class="message-text">Let's crush it! Stay focused!</span>
+          <span class="message-text">Let's stay focused!</span>
         </div>
 
         <button id="stopBtn" class="btn btn-danger">
