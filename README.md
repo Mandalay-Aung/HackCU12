@@ -44,6 +44,9 @@ Through MLH workshops and the resources available at HackCU12, we got to explore
 - vscode
 - webaudiopai
 
+## Images/Icons
+Despite the usage of AI with coding assistance, we did use the generated AI art as it is a ethic we wanted to uphold out of respect for real art/asrtist and the harm AI art has caused in the community. All the image and icon PNGs were drawn by hand in the final version we completed.
+
 # Version Explanation
 Version 1.0.10 is the tenth major iteration of the BuffFocus Extension. All previous versions can be found in the "testing" branch. All other drafts/scrapped work can be found in the various branches as well.
 
