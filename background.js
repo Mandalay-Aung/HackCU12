@@ -18,8 +18,10 @@ const DEFAULT_CONFIG = {
     'tumblr.com', 'buzzfeed.com', '9gag.com',
     'miniclip.com', 'poki.com', 'crazygames.com',
     'addictinggames.com', 'kongregate.com', 'newgrounds.com',
-    'store.steampowered.com', 'twitch.tv'
-  ]
+    'store.steampowered.com', 'amazon.com', 'ebay.com', 'shein.com', 
+    'temu.com', 'aliexpress.com', 'etsy.com', 'roblox.com', 
+    'minecraft.net', 'ign.com', 'kotaku.com'
+  ] // to be updated
 };
 
 const QUOTES = [
