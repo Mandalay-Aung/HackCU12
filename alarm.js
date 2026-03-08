@@ -1,4 +1,4 @@
-// ===== BuffaloFocus Alarm Sound System =====
+// BuffFocus Alarm Sound System
 // Uses Web Audio API to generate alarm sounds (no audio files needed)
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -12,7 +12,7 @@ function getAudioContext() {
   return audioCtx;
 }
 
-// --- Alarm Sound Patterns ---
+// Alarm Sound Patterns
 
 // Gentle chime - for same-tab alerts
 function playChime() {
@@ -99,7 +99,7 @@ function playBuffaloHorn() {
   osc2.stop(now + 1.0);
 }
 
-// --- Message Handler ---
+// Message Handler
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'playAlarm') {
     switch (message.sound) {
