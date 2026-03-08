@@ -1,7 +1,7 @@
 /* ===== Notification Page Styles ===== */
 
 .word{
-  font: 300;
+  font-size: 75;
   color:red;
 }
 :root {

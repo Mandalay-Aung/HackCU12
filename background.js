@@ -183,6 +183,16 @@ function checkProductivity() {
         'idle',
         'urgent'
       );
+      
+      chrome.windows.create({
+        url: 'inactivity.html',
+        type: 'popup',
+        width: 1200,
+        height: 1000,
+        left: 100,
+        top: 100
+      })
+
       // Reset so we don't spam
       lastActivityTime = now;
     }

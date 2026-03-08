@@ -23,7 +23,7 @@ const messages = {
   unproductive_site: {
     title: '🦬 Hey, get back to work!',
     message: `This site isn't helping you study ${subject}. Time to refocus!`,
-    quote: '"Sko Buffs! Eyes on the prize." 🎯'
+    quote: '"Sko Buffs! Eyes on the prize." 🎯',
   },
   general: {
     title: '🦬 Focus Check!',
@@ -36,6 +36,15 @@ const msg = messages[notifType] || messages.general;
 document.getElementById('notifTitle').textContent = msg.title;
 document.getElementById('notifMessage').textContent = msg.message;
 document.getElementById('notifQuote').textContent = msg.quote;
+
+    chrome.windows.create({
+      url: 'backtowork.html',
+      type: 'popup',
+      width: 200,
+      height: 200,
+      left: screen.width-width/2,
+      top: screen.height-height/2
+    })
 
 // Back to work - close the notification tab
 backToWorkBtn.addEventListener('click', () => {
