@@ -2,5 +2,5 @@
 
 Hackathon project for HackCU 12.
 
-# Authors
+#Authors
 Mandalay Aung, Gaby Hutabarat, Mar-Jan Ataii
