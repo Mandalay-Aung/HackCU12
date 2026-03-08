@@ -1,6 +1,6 @@
-// ===== BuffaloFocus Popup Script =====
+// BuffFocus Popup Script
 
-// --- DOM Elements ---
+// DOM Elements
 const welcomeScreen = document.getElementById('welcomeScreen');
 const enterAppBtn = document.getElementById('enterAppBtn');
 const startScreen = document.getElementById('startScreen');
@@ -27,31 +27,31 @@ const quoteIntervalRow = document.getElementById('quoteIntervalRow');
 const testAlarmBtn = document.getElementById('testAlarmBtn');
 const mascot = document.getElementById('mascot');
 
-// --- Motivational Messages ---
+// Motivational Messages
 const motivationalMessages = [
   "Let's crush it! Stay focused! 💪",
-  "You've got this, Buff! 🦬",
+  "You've got this! 🦬",
   "Ralphie believes in you! 🏆",
-  "Sko Buffs! Keep pushing! 🎯",
+  "Sko Buffs. Keep pushing! 🎯",
   "Be Boulder, be focused! 🏔️",
   "Champions study hard! ⭐",
   "One chapter at a time! 📖",
   "Your future self will thank you! 🌟",
-  "Buffalo strong, buffalo focused! 💛",
+  "Huff, Grunt, (Buffalo sounds)",
   "CU later, distractions! 🖐️"
 ];
 
 let sessionStartTime = null;
 let updateInterval = null;
 
-// --- Initialize ---
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
   loadSettings();
   checkSession();
   setupEventListeners();
 });
 
-// --- Event Listeners ---
+// Event Listeners
 function setupEventListeners() {
   // Enter App from Welcome Screen
   enterAppBtn.addEventListener('click', () => {
@@ -115,7 +115,7 @@ function setupEventListeners() {
   });
 }
 
-// --- Start Focus Session ---
+// Start Focus Session
 function startSession() {
   const subject = subjectInput.value.trim();
   if (!subject) {
@@ -136,7 +136,7 @@ function startSession() {
   });
 }
 
-// --- Stop Focus Session ---
+// Stop Focus Session
 function stopSession() {
   chrome.runtime.sendMessage({ type: 'stopSession' }, (response) => {
     if (response && response.status === 'stopped') {
@@ -146,7 +146,7 @@ function stopSession() {
   });
 }
 
-// --- Show Screens ---
+// Show Screens
 function showSessionScreen(subject) {
   welcomeScreen.classList.add('hidden');
   startScreen.classList.add('hidden');
@@ -162,7 +162,7 @@ function showStartScreen() {
   subjectInput.value = '';
 }
 
-// --- Check Existing Session ---
+// Check Existing Session
 function checkSession() {
   chrome.runtime.sendMessage({ type: 'getStatus' }, (response) => {
     if (chrome.runtime.lastError) {
@@ -185,7 +185,7 @@ function checkSession() {
   });
 }
 
-// --- Update Stats ---
+// Update Stats
 function startUpdating() {
   updateStats();
   updateInterval = setInterval(updateStats, 1000);
@@ -229,7 +229,7 @@ function formatTime(totalSeconds) {
   return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
 
-// --- Buffalo Messages ---
+// Buffalo Messages
 function updateBuffaloMessage() {
   const msgText = buffaloMessage.querySelector('.message-text');
   const randomMsg = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
@@ -238,7 +238,7 @@ function updateBuffaloMessage() {
   setTimeout(() => { buffaloMessage.style.animation = 'slideIn 0.5s ease-out'; }, 10);
 }
 
-// --- Settings ---
+// Settings 
 function loadSettings() {
   chrome.storage.local.get(['config'], (result) => {
     if (result.config) {
@@ -275,7 +275,7 @@ function saveSettings() {
   });
 }
 
-// --- Shake Animation ---
+// Shake Animation
 const style = document.createElement('style');
 style.textContent = `
   @keyframes shake {
