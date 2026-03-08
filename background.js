@@ -1,6 +1,6 @@
-// ===== BuffaloFocus Background Service Worker =====
+// BuffFocus Background Service Worker
 
-// --- Default Configuration ---
+// Default Configuration
 const DEFAULT_CONFIG = {
   sameTabTimeout: 30,       // minutes before "same tab too long" alert
   idleTimeout: 5,           // minutes of no activity before alert
@@ -33,7 +33,7 @@ const QUOTES = [
   "Ralphie is cheering you on! 🦬"
 ];
 
-// --- State ---
+// State
 let currentTabId = null;
 let currentTabUrl = '';
 let tabStartTime = Date.now();
@@ -65,7 +65,7 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-// --- Alarm Handler ---
+// Alarm Handler
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'productivityCheck') {
     checkProductivity();
@@ -114,7 +114,7 @@ function handleTabChange(tabId, url) {
   checkIfUnproductive(url);
 }
 
-// --- Check if URL is unproductive ---
+// Check if URL is unproductive
 function checkIfUnproductive(url) {
   if (!url || !isSessionActive) return;
 
@@ -128,7 +128,7 @@ function checkIfUnproductive(url) {
 
       if (isUnproductive) {
         sendNotification(
-          '🦬 Hey, get back to work!',
+          '🦬 Get back to work!',
           `You should be studying ${focusSubject}! This site isn't helping you focus.`,
           'unproductive_site',
           'horn'
@@ -140,7 +140,7 @@ function checkIfUnproductive(url) {
   });
 }
 
-// --- Productivity Check (runs every minute) ---
+// Productivity Check (runs every minute)
 function checkProductivity() {
   if (!isSessionActive) return;
 
@@ -177,7 +177,7 @@ function checkProductivity() {
 }
 
 
-// --- Activity Messages from Content Script ---
+// Activity Messages from Content Script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'activity') {
     lastActivityTime = Date.now();
@@ -294,7 +294,7 @@ async function playAlarmSound(sound) {
   chrome.runtime.sendMessage({ type: 'playAlarm', sound });
 }
 
-// --- Restore session on startup ---
+// Restore session on startup
 chrome.runtime.onStartup.addListener(() => {
   chrome.storage.local.get(['session'], (result) => {
     if (result.session && result.session.isActive) {
