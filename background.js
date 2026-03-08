@@ -135,6 +135,17 @@ function checkIfUnproductive(url) {
           'unproductive_site',
           'horn'
         );
+
+        
+        chrome.windows.create({
+        url: 'backtowork.html',
+        type: 'popup',
+        width: 1200,
+        height: 1000,
+        left: 100,
+        top: 100
+        })
+
       }
     } catch (e) {
       // Invalid URL, ignore

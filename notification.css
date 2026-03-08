@@ -1,5 +1,9 @@
 /* ===== Notification Page Styles ===== */
 
+.word{
+  font: 300;
+  color:red;
+}
 :root {
   --cu-gold: #CFB87C;
   --cu-gold-light: #E8D5A3;

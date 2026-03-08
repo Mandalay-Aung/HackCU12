@@ -1,5 +1,10 @@
 /* ===== BuffFocus - CU Boulder Themed Styles ===== */
 
+.word{
+  font: 900;
+  color: red;
+}
+
 /* --- CU Boulder Color Palette --- */
 :root {
   --cu-gold: #CFB87C;
